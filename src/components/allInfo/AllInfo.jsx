@@ -42,7 +42,23 @@ const AllInfo = ({ currentList, setCurrentList }) => {
   const deleteSection = (id) => {};
 
   // For edit
-  const editSection = (id) => {};
+  const editSection = (id) => {
+    const description = prompt("Enter section's description");
+    if (!description) {
+      return;
+    }
+    currentList.filter((item) => {
+      if (item.id === id) {
+        const tempCurrentList = [...currentList];
+        const tempCurrentItem = { ...tempCurrentList[id] };
+        tempCurrentItem.description = description;
+        tempCurrentList[id] = tempCurrentItem;
+        setCurrentList(tempCurrentList);
+        return item;
+      }
+      return item;
+    });
+  };
 
   return (
     <div className="curriculum__lists">
