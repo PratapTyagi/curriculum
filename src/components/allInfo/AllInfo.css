@@ -6,6 +6,17 @@
 
 .curriculum__list > .curriculum__list__buttons {
   margin-right: 5%;
+  color: lightgrey;
+}
+
+.curriculum__list_icons {
+  cursor: pointer;
+  margin-right: 6px;
+  font-size: 20px;
+}
+
+.curriculum__list_icons:hover {
+  color: rgb(52, 143, 218);
 }
 
 .curriculum__list > .curriculum__list__description {
