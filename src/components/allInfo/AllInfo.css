@@ -1,0 +1,31 @@
+.curriculum__list {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid lightgrey;
+}
+
+.curriculum__list > .curriculum__list__buttons {
+  margin-right: 5%;
+}
+
+.curriculum__list > .curriculum__list__description {
+  margin-left: 20%;
+  padding: 15px 0;
+}
+
+.main {
+  color: rgb(52, 143, 218);
+}
+
+.first__child {
+  color: rgb(44, 44, 44);
+  padding-left: 20px !important;
+  border-left: 10px solid rgb(180, 180, 180);
+}
+
+.second__child {
+  color: rgb(66, 66, 66);
+  padding-left: 20px !important;
+  margin-left: 25% !important;
+  border-left: 10px solid rgb(180, 180, 180);
+}

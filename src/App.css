@@ -1,0 +1,13 @@
+.app {
+  text-align: left;
+}
+
+.app__body {
+  width: 80%;
+  margin: 5vh auto;
+}
+
+.app__body > h2 {
+  color: rgb(66, 66, 66);
+  margin-bottom: 50px;
+}

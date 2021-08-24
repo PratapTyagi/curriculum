@@ -1,0 +1,58 @@
+.curriculum > h4 {
+  text-transform: uppercase;
+  color: lightgrey;
+  font-size: 15px;
+  margin-bottom: 0;
+}
+
+.curriculum > hr {
+  border: none;
+  border: 1px solid lightgray !important;
+}
+
+.curriculum > button {
+  width: 80vw;
+  padding: 10px;
+  margin-top: 15px;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  color: whitesmoke;
+  background-color: rgb(52, 143, 218);
+}
+
+.curriculum__static {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+  margin-bottom: 0 !important;
+}
+
+.curriculum__static__left > h5 {
+  margin: 0;
+  color: rgb(66, 66, 66);
+}
+
+.curriculum__static__left > p {
+  margin: 0;
+  color: lightgray;
+  font-size: 12px;
+}
+
+.curriculum__static__right > h5 {
+  margin: 0;
+  color: rgb(66, 66, 66);
+}
+
+.curriculum__static__right > p {
+  margin: 0;
+  color: lightgray;
+  font-size: 12px;
+}
+
+.curriculum > button:hover {
+  color: rgb(52, 143, 218);
+  background-color: whitesmoke;
+  transition: background-color 0.3s ease-out;
+}
