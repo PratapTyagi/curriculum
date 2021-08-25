@@ -39,7 +39,19 @@ const AllInfo = ({ currentList, setCurrentList }) => {
   };
 
   // For deletion
-  const deleteSection = (id) => {};
+  const deleteSection = (id, count) => {
+    let output = currentList.filter(
+      (item) => item.id === id || (item.id > id && item.count > count)
+    );
+
+    output = output.map((item) => item.id);
+
+    const tempCurrentList = [...currentList];
+    const updatedList = tempCurrentList.filter(
+      (item) => !output.includes(item.id)
+    );
+    setCurrentList(updatedList);
+  };
 
   // For edit
   const editSection = (id) => {
@@ -83,7 +95,7 @@ const AllInfo = ({ currentList, setCurrentList }) => {
             <CgTrash
               onClick={(e) => {
                 e.preventDefault();
-                deleteSection(data.id);
+                deleteSection(data.id, data.count);
               }}
               className="curriculum__list_icons"
             />
