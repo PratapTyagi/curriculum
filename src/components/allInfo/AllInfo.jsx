@@ -1,7 +1,9 @@
+import React from "react";
 import "./AllInfo.css";
-import { BsArrowsMove, BsArrowLeft, BsArrowRight } from "react-icons/bs";
+import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { CgTrash } from "react-icons/cg";
 import { AiFillEdit } from "react-icons/ai";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 const AllInfo = ({ currentList, setCurrentList }) => {
   // For outdent
@@ -38,18 +40,30 @@ const AllInfo = ({ currentList, setCurrentList }) => {
     });
   };
 
+  // Maintain Indexes
+  const maintainIndex = (updatedList) => {
+    return updatedList.map((item, i) => ({ ...item, id: i }));
+  };
+
   // For deletion
   const deleteSection = (id, count) => {
+    // Child sections to be deleted
+    // Example: [0, 1] => [id, id]
+
     let output = currentList.filter(
       (item) => item.id === id || (item.id > id && item.count > count)
     );
-
     output = output.map((item) => item.id);
 
+    // Removing those ids
     const tempCurrentList = [...currentList];
-    const updatedList = tempCurrentList.filter(
+    let updatedList = tempCurrentList.filter(
       (item) => !output.includes(item.id)
     );
+
+    // Maintain remaining one's id's
+
+    updatedList = maintainIndex(updatedList);
     setCurrentList(updatedList);
   };
 
@@ -74,52 +88,84 @@ const AllInfo = ({ currentList, setCurrentList }) => {
 
   return (
     <div className="curriculum__lists">
-      {currentList.map((data) => (
-        <div key={data.id} className="curriculum__list">
-          <div className="curriculum__list__buttons">
-            <BsArrowsMove className="curriculum__list_icons" />
-            <BsArrowLeft
-              onClick={(e) => {
-                e.preventDefault();
-                decrementCount(data.id);
-              }}
-              className="curriculum__list_icons"
-            />
-            <BsArrowRight
-              onClick={(e) => {
-                e.preventDefault();
-                incrementCount(data.id);
-              }}
-              className="curriculum__list_icons"
-            />
-            <CgTrash
-              onClick={(e) => {
-                e.preventDefault();
-                deleteSection(data.id, data.count);
-              }}
-              className="curriculum__list_icons"
-            />
-            <AiFillEdit
-              onClick={(e) => {
-                e.preventDefault();
-                editSection(data.id);
-              }}
-              className="curriculum__list_icons"
-            />
-          </div>
-          <div
-            className={`curriculum__list__description ${
-              data.count === 0
-                ? "main"
-                : data.count === 1
-                ? "first__child"
-                : "second__child"
-            }`}
-          >
-            {data.description}
-          </div>
-        </div>
-      ))}
+      <DragDropContext
+        onDragEnd={({ source, destination }) => {
+          let tempCurrentList = [...currentList];
+          tempCurrentList.splice(
+            destination.index,
+            0,
+            tempCurrentList.splice(source.index, 1)[0]
+          );
+          tempCurrentList = maintainIndex(tempCurrentList);
+          setCurrentList(tempCurrentList);
+        }}
+      >
+        <Droppable droppableId="droppable-1">
+          {(provided, _) => (
+            <div ref={provided.innerRef} {...provided.droppableProps}>
+              {currentList.map((data, i) => (
+                <Draggable
+                  draggableId={`draggable-${data.id}`}
+                  key={data.id}
+                  index={i}
+                >
+                  {(provided, _) => (
+                    <div
+                      className="curriculum__list"
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <div className="curriculum__list__buttons">
+                        <BsArrowLeft
+                          onClick={(e) => {
+                            e.preventDefault();
+                            decrementCount(data.id);
+                          }}
+                          className="curriculum__list_icons"
+                        />
+                        <BsArrowRight
+                          onClick={(e) => {
+                            e.preventDefault();
+                            incrementCount(data.id);
+                          }}
+                          className="curriculum__list_icons"
+                        />
+                        <CgTrash
+                          onClick={(e) => {
+                            e.preventDefault();
+                            deleteSection(data.id, data.count);
+                          }}
+                          className="curriculum__list_icons"
+                        />
+                        <AiFillEdit
+                          onClick={(e) => {
+                            e.preventDefault();
+                            editSection(data.id);
+                          }}
+                          className="curriculum__list_icons"
+                        />
+                      </div>
+                      <div
+                        className={`curriculum__list__description ${
+                          data.count === 0
+                            ? "main"
+                            : data.count === 1
+                            ? "first__child"
+                            : "second__child"
+                        }`}
+                      >
+                        {data.description}
+                      </div>
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
     </div>
   );
 };
